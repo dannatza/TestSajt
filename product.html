@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Детаљи производа - TechHub</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <header class="navbar">
+        <div class="navbar-container">
+            <div class="logo">
+                <h1><a href="index.html" style="text-decoration: none; color: inherit;">TechHub</a></h1>
+            </div>
+            <div class="navbar-center">
+                <input type="text" class="search-bar" placeholder="Претрага производа...">
+                <button class="search-btn">🔍</button>
+            </div>
+            <div class="navbar-right">
+                <a href="#" class="nav-link">Налог</a>
+                <a href="cart.html" class="cart-link">
+                    🛒 Корпа <span class="cart-count">0</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <a href="index.html">Почетна</a> / <span id="productBreadcrumb">Производ</span>
+    </div>
+
+    <!-- Product Details Section -->
+    <section class="product-details">
+        <div class="product-details-container">
+            <div class="product-image-large">
+                <div class="image-display" id="imageDisplay">📦</div>
+            </div>
+
+            <div class="product-details-info">
+                <h1 id="productName">Назив производа</h1>
+                
+                <div class="product-rating">
+                    <span class="stars" id="productStars">★★★★★</span>
+                    <span class="rating-value" id="productRating">4.5</span>
+                    <span class="reviews" id="productReviews">(500)</span>
+                </div>
+
+                <div class="product-price-section">
+                    <span class="current-price" id="productPrice">$999</span>
+                    <span class="original-price" id="productOriginalPrice">$1299</span>
+                    <span class="discount-badge" id="discountBadge">-23%</span>
+                </div>
+
+                <div class="product-description">
+                    <h3>Опис</h3>
+                    <p id="productDescription">Опис производа иде овде</p>
+                </div>
+
+                <div class="product-specifications">
+                    <h3>Спецификације</h3>
+                    <div class="specs-grid" id="specsGrid">
+                        <!-- Specs will be populated by JS -->
+                    </div>
+                </div>
+
+                <div class="stock-status">
+                    <span id="stockStatus" class="in-stock">✓ На залихи</span>
+                </div>
+
+                <div class="quantity-selector">
+                    <label for="quantity">Количина:</label>
+                    <div class="quantity-controls">
+                        <button class="qty-btn" onclick="decreaseQuantity()">−</button>
+                        <input type="number" id="quantity" value="1" min="1">
+                        <button class="qty-btn" onclick="increaseQuantity()">+</button>
+                    </div>
+                </div>
+
+                <div class="product-actions">
+                    <button class="btn btn-primary btn-large" onclick="addToCartFromDetails()">Додај у корпу</button>
+                    <button class="btn btn-secondary btn-large">Купи одмах</button>
+                </div>
+
+                <div class="product-benefits">
+                    <div class="benefit">
+                        <span class="benefit-icon">🚚</span>
+                        <span>БЕСПЛАТНА достава на наруџбине преко $50</span>
+                    </div>
+                    <div class="benefit">
+                        <span class="benefit-icon">🔄</span>
+                        <span>Гарантија враћања новца од 30 дана</span>
+                    </div>
+                    <div class="benefit">
+                        <span class="benefit-icon">🛡️</span>
+                        <span>Укључена двогодишња гаранција</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Products -->
+    <section class="related-products">
+        <h2>Слични производи</h2>
+        <div class="products-grid" id="relatedGrid">
+            <!-- Related products will be loaded here -->
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>О TechHub-у</h3>
+                <p>Ваше поверено место за куповину квалитетних технолошких производа на интернету</p>
+            </div>
+            <div class="footer-section">
+                <h3>Подршка</h3>
+                <ul>
+                    <li><a href="#">Контактирајте нас</a></li>
+                    <li><a href="#">Информације о доставци</a></li>
+                    <li><a href="#">Враћања</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Пратите нас</h3>
+                <ul>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">Instagram</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 TechHub. Сва права задржана.</p>
+        </div>
+    </footer>
+
+    <!-- Notification Toast -->
+    <div class="toast" id="toast"></div>
+
+    <script src="products.js"></script>
+    <script src="app.js"></script>
+    <script src="product-detail.js"></script>
+</body>
+</html>

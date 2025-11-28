@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Корпа - TechHub</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <header class="navbar">
+        <div class="navbar-container">
+            <div class="logo">
+                <h1><a href="index.html" style="text-decoration: none; color: inherit;">TechHub</a></h1>
+            </div>
+            <div class="navbar-center">
+                <input type="text" class="search-bar" placeholder="Претрага производа...">
+                <button class="search-btn">🔍</button>
+            </div>
+            <div class="navbar-right">
+                <a href="#" class="nav-link">Налог</a>
+                <a href="cart.html" class="cart-link">
+                    🛒 Корпа <span class="cart-count">0</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <a href="index.html">Почетна</a> / <span>Корпа</span>
+    </div>
+
+    <!-- Cart Section -->
+    <section class="cart-section">
+        <div class="cart-container">
+            <!-- Cart Items -->
+            <div class="cart-items">
+                <h1>Корпа за куповину</h1>
+                <div class="cart-items-list" id="cartItems">
+                    <!-- Cart items will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Cart Summary -->
+            <aside class="cart-summary">
+                <div class="summary-box">
+                    <h2>Сумма наруџбе</h2>
+                    
+                    <div class="summary-row">
+                        <span>Међусумма:</span>
+                        <span id="subtotal">$0.00</span>
+                    </div>
+
+                    <div class="summary-row">
+                        <span>Достава:</span>
+                        <span id="shipping">БЕСПЛАТНО</span>
+                    </div>
+
+                    <div class="summary-row">
+                        <span>Порез:</span>
+                        <span id="tax">$0.00</span>
+                    </div>
+
+                    <hr class="summary-divider">
+
+                    <div class="summary-row total">
+                        <span>Укупно:</span>
+                        <span id="total">$0.00</span>
+                    </div>
+
+                    <button class="btn btn-primary btn-large" onclick="checkout()">Наставите на плаћање</button>
+                    <a href="index.html" class="btn btn-secondary btn-large">Наставите куповину</a>
+                </div>
+
+                <!-- Promo Code -->
+                <div class="promo-box">
+                    <h3>Промо код</h3>
+                    <div class="promo-input">
+                        <input type="text" id="promoCode" placeholder="Унесите код">
+                        <button onclick="applyPromo()">Примени</button>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </section>
+
+    <!-- Empty Cart Message -->
+    <div class="empty-cart-message" id="emptyCart" style="display: none;">
+        <div class="empty-content">
+            <h2>Ваша корпа је празна</h2>
+            <p>Почните куповину да додате производе у вашу корпу</p>
+            <a href="index.html" class="btn btn-primary">Почните куповину</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>О TechHub-у</h3>
+                <p>Ваше поверено место за куповину квалитетних технолошких производа на интернету</p>
+            </div>
+            <div class="footer-section">
+                <h3>Подршка</h3>
+                <ul>
+                    <li><a href="#">Контактирајте нас</a></li>
+                    <li><a href="#">Информације о доставци</a></li>
+                    <li><a href="#">Враћања</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Пратите нас</h3>
+                <ul>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">Instagram</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 TechHub. Сва права задржана.</p>
+        </div>
+    </footer>
+
+    <!-- Notification Toast -->
+    <div class="toast" id="toast"></div>
+
+    <script src="products.js"></script>
+    <script src="app.js"></script>
+    <script src="cart.js"></script>
+</body>
+</html>

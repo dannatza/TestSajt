@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechHub - Онлајн продавница</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <header class="navbar">
+        <div class="navbar-container">
+            <div class="logo">
+                <h1>TechHub</h1>
+            </div>
+            <div class="navbar-center">
+                <input type="text" class="search-bar" placeholder="Претрага производа...">
+                <button class="search-btn">🔍</button>
+            </div>
+            <div class="navbar-right">
+                <a href="#" class="nav-link">Налог</a>
+                <a href="cart.html" class="cart-link">
+                    🛒 Корпа <span class="cart-count">0</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h2>Добродошли у TechHub</h2>
+            <p>Откријте запањујуће технолошке производе по неотпорним ценама</p>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories">
+        <div class="categories-container">
+            <button class="category-btn active" data-category="all">Сви производи</button>
+            <button class="category-btn" data-category="laptops">Лаптопи</button>
+            <button class="category-btn" data-category="phones">Телефони</button>
+            <button class="category-btn" data-category="tablets">Таблети</button>
+            <button class="category-btn" data-category="accessories">Додаци</button>
+        </div>
+    </section>
+
+    <!-- Products Grid -->
+    <section class="products-section">
+        <div class="products-grid" id="productsGrid">
+            <!-- Products will be loaded here by JavaScript -->
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>О TechHub-у</h3>
+                <p>Ваше поверено место за куповину квалитетних технолошких производа на интернету</p>
+            </div>
+            <div class="footer-section">
+                <h3>Подршка</h3>
+                <ul>
+                    <li><a href="#">Контактирајте нас</a></li>
+                    <li><a href="#">Информације о доставци</a></li>
+                    <li><a href="#">Враћања</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Пратите нас</h3>
+                <ul>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">Instagram</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 TechHub. Сва права задржана.</p>
+        </div>
+    </footer>
+
+    <!-- Notification Toast -->
+    <div class="toast" id="toast"></div>
+
+    <script src="products.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
