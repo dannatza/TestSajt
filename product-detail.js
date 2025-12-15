@@ -15,7 +15,6 @@ function loadProductDetails() {
     }
 
     // Update page elements
-    document.getElementById('productBreadcrumb').textContent = product.name;
     document.getElementById('productName').textContent = product.name;
     document.getElementById('imageDisplay').textContent = product.image;
     document.getElementById('productStars').textContent = '★'.repeat(Math.floor(product.rating));
