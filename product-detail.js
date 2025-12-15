@@ -40,13 +40,17 @@ function loadProductDetails() {
 
     // Stock status
     const stockStatus = document.getElementById('stockStatus');
-    if (product.inStock) {
-        stockStatus.textContent = '✓ На залихи';
-        stockStatus.classList.add('in-stock');
-    } else {
-        stockStatus.textContent = '✗ Нема на залихи';
-        stockStatus.classList.remove('in-stock');
+    const stock = getProductStock(product.id);
+    const isOutOfStock = stock === 0;
+    
+    if (isOutOfStock) {
+        stockStatus.textContent = `✗ Нема на залихи`;
         stockStatus.classList.add('out-of-stock');
+        stockStatus.classList.remove('in-stock');
+    } else {
+        stockStatus.textContent = `✓ На залихи`;
+        stockStatus.classList.add('in-stock');
+        stockStatus.classList.remove('out-of-stock');
     }
 
     // Load related products
@@ -103,14 +107,32 @@ function addToCartFromDetails() {
     const quantity = parseInt(document.getElementById('quantity').value);
 
     if (product) {
+        // Check if enough stock available
+        const stock = getProductStock(product.id);
+        if (stock < quantity) {
+            cart.showNotification(`Имате само ${stock} артикала на залихи!`);
+            return;
+        }
+        
+        // Decrease stock for each item
+        for (let i = 0; i < quantity; i++) {
+            if (!decreaseStock(product.id)) break;
+        }
+        
         cart.addItem(product, quantity);
         // Reset quantity
         document.getElementById('quantity').value = 1;
+        
+        // Reload product details to show updated stock
+        loadProductDetails();
     }
 }
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
+    // Load stock first
+    loadStock();
+    
     loadProductDetails();
     cart.updateCartCount();
 
