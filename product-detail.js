@@ -1,10 +1,10 @@
-// Get product ID from URL
+// Dobij ID proizvoda iz URL-a
 function getProductIdFromURL() {
     const params = new URLSearchParams(window.location.search);
     return parseInt(params.get('id'));
 }
 
-// Load product details
+// Učitaj detalje proizvoda
 function loadProductDetails() {
     const productId = getProductIdFromURL();
     const product = products.find(p => p.id === productId);
@@ -53,11 +53,25 @@ function loadProductDetails() {
         stockStatus.classList.remove('out-of-stock');
     }
 
-    // Load related products
+    // Učitaj opcije proizvoda
+    if (product.options) {
+        const optionsContainer = document.getElementById('productOptions');
+        optionsContainer.innerHTML = Object.entries(product.options).map(([optionName, optionValues]) => `
+            <div class="product-option-detail">
+                <label for="option-${optionName}">${optionName === 'color' ? 'Боја' : optionName === 'storage' ? 'Меморија' : optionName === 'size' ? 'Величина' : optionName.charAt(0).toUpperCase() + optionName.slice(1)}:</label>
+                <select id="option-${optionName}" onchange="updateDetailOptionSelection(${product.id}, '${optionName}', this.value)" class="option-select-detail">
+                    <option value="">Одаберите ${optionName === 'color' ? 'боју' : optionName === 'storage' ? 'меморију' : optionName === 'size' ? 'величину' : optionName}...</option>
+                    ${optionValues.map(val => `<option value="${val}">${val}</option>`).join('')}
+                </select>
+            </div>
+        `).join('');
+    }
+
+    // Učitaj povezane proizvode
     loadRelatedProducts(product.category, product.id);
 }
 
-// Load related products
+// Učitaj povezane proizvode
 function loadRelatedProducts(category, currentProductId) {
     const related = products.filter(p => 
         p.category === category && p.id !== currentProductId
@@ -87,7 +101,7 @@ function loadRelatedProducts(category, currentProductId) {
     `).join('');
 }
 
-// Quantity controls
+// Kontrole količine
 function increaseQuantity() {
     const qty = document.getElementById('quantity');
     qty.value = parseInt(qty.value) + 1;
@@ -100,30 +114,58 @@ function decreaseQuantity() {
     }
 }
 
-// Add to cart from product details page
+// Čuvaj odabrane opcije za stranicu detaljа
+let detailSelectedOptions = {};
+
+// Ažuriraj izbor opcije na stranici detaljа
+function updateDetailOptionSelection(productId, optionName, optionValue) {
+    if (!detailSelectedOptions[productId]) {
+        detailSelectedOptions[productId] = {};
+    }
+    detailSelectedOptions[productId][optionName] = optionValue;
+}
+
+// Dodaj u korpу iz stranice detaljа proizvoda
 function addToCartFromDetails() {
     const productId = getProductIdFromURL();
     const product = products.find(p => p.id === productId);
     const quantity = parseInt(document.getElementById('quantity').value);
 
     if (product) {
-        // Check if enough stock available
+        // Proverite da li proizvod ima obavezne opcije
+        if (product.options) {
+            const options = detailSelectedOptions[productId] || {};
+            const requiredOptions = Object.keys(product.options);
+            const selectedOptionKeys = Object.keys(options).filter(key => options[key] !== '');
+            
+            if (selectedOptionKeys.length < requiredOptions.length) {
+                cart.showNotification('Molimo odaberite sve opcije!');
+                return;
+            }
+        }
+        
+        // Proverite da li ima dovoljno skladišta dostupno
         const stock = getProductStock(product.id);
         if (stock < quantity) {
             cart.showNotification(`Имате само ${stock} артикала на залихи!`);
             return;
         }
         
-        // Decrease stock for each item
+        // Smanji skladište za svaki artikal
         for (let i = 0; i < quantity; i++) {
             if (!decreaseStock(product.id)) break;
         }
         
-        cart.addItem(product, quantity);
-        // Reset quantity
+        const cartItem = {
+            ...product,
+            selectedOptions: detailSelectedOptions[productId] || {}
+        };
+        cart.addItem(cartItem, quantity);
+        // Resetuj količinu i opcije
         document.getElementById('quantity').value = 1;
+        detailSelectedOptions[productId] = {};
         
-        // Reload product details to show updated stock
+        // Ponovno učitaj detalje proizvoda da prikaži ažurirano skladište
         loadProductDetails();
     }
 }

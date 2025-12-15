@@ -1,4 +1,4 @@
-// Load and display cart items
+// Učitaj i prikaži artikle iz korpe
 function loadCart() {
     const cartItems = document.getElementById('cartItems');
     const emptyCart = document.getElementById('emptyCart');
@@ -18,6 +18,11 @@ function loadCart() {
             <div class="item-details">
                 <h3>${item.name}</h3>
                 <p class="item-category">${item.category}</p>
+                ${item.selectedOptions && Object.keys(item.selectedOptions).length > 0 ? `
+                    <p class="item-options">
+                        ${Object.entries(item.selectedOptions).map(([key, value]) => `<span>${key}: ${value}</span>`).join(' | ')}
+                    </p>
+                ` : ''}
                 <p class="item-price">$${item.price}</p>
             </div>
             <div class="item-quantity">
@@ -38,7 +43,7 @@ function loadCart() {
     updateSummary();
 }
 
-// Update item quantity
+// Ažuriraj količinu artikla
 function updateCartQuantity(productId, newQuantity) {
     if (newQuantity < 1) {
         removeFromCart(productId);
@@ -48,14 +53,14 @@ function updateCartQuantity(productId, newQuantity) {
     loadCart();
 }
 
-// Remove item from cart
+// Ukloni artikal iz korpe
 function removeFromCart(productId) {
     cart.removeItem(productId);
     loadCart();
     cart.showNotification('Производ уклоњен из корпе');
 }
 
-// Update order summary
+// Ažuriraj sažetak narudžbine
 function updateSummary() {
     const subtotal = cart.getTotal();
     const tax = subtotal * 0.08; // 8% tax

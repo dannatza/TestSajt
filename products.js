@@ -42,6 +42,9 @@ const products = [
             display: '6.1" Super Retina',
             battery: 'Батерија целог дана'
         },
+        options: {
+            color: ['Црна', 'Сребрена', 'Злата', 'Дубока црна']
+        },
         inStock: true
     },
     {
@@ -86,6 +89,9 @@ const products = [
             driver: '40mm',
             weight: '250g'
         },
+        options: {
+            color: ['Црна', 'Плава', 'Сива']
+        },
         inStock: true
     },
     {
@@ -107,6 +113,10 @@ const products = [
             camera: '50MP Главна',
             display: '6.2" AMOLED',
             battery: '4000mAh'
+        },
+        options: {
+            color: ['Црна', 'Плава', 'Жута', 'Бела'],
+            storage: ['256GB', '512GB']
         },
         inStock: true
     },
@@ -151,6 +161,10 @@ const products = [
             battery: '24+ часова',
             features: 'GPS, ECG, Blood Oxygen',
             waterproof: '5ATM'
+        },
+        options: {
+            color: ['Црна', 'Сребрена'],
+            size: ['S', 'M', 'L']
         },
         inStock: true
     },

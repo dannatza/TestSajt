@@ -1,22 +1,22 @@
-// Cart Management System
+// Sistem upravljanja korpom
 class Cart {
     constructor() {
         this.items = this.loadCart();
     }
 
-    // Load cart from localStorage
+    // Učitaj korpу iz localStorage
     loadCart() {
         const saved = localStorage.getItem('cart');
         return saved ? JSON.parse(saved) : [];
     }
 
-    // Save cart to localStorage
+    // Sačuvaj korpу u localStorage
     saveCart() {
         localStorage.setItem('cart', JSON.stringify(this.items));
         this.updateCartCount();
     }
 
-    // Add item to cart
+    // Dodaj artikal u korpу
     addItem(product, quantity = 1) {
         const existingItem = this.items.find(item => item.id === product.id);
 
@@ -33,13 +33,13 @@ class Cart {
         this.showNotification(`Додано ${quantity} x ${product.name} у корпу`);
     }
 
-    // Remove item from cart
+    // Ukloni artikal iz korpe
     removeItem(productId) {
         this.items = this.items.filter(item => item.id !== productId);
         this.saveCart();
     }
 
-    // Update item quantity
+    // Ažuriraj količinu artikla
     updateQuantity(productId, quantity) {
         const item = this.items.find(item => item.id === productId);
         if (item) {
@@ -48,23 +48,23 @@ class Cart {
         }
     }
 
-    // Get cart total
+    // Dobij ukupnu sumu korpe
     getTotal() {
         return this.items.reduce((total, item) => total + (item.price * item.quantity), 0);
     }
 
-    // Get item count
+    // Dobij broj artikala
     getCount() {
         return this.items.reduce((count, item) => count + item.quantity, 0);
     }
 
-    // Clear cart
+    // Očisti korpу
     clearCart() {
         this.items = [];
         this.saveCart();
     }
 
-    // Update cart count in navbar
+    // Ažuriraj broj artikala u navigaciji
     updateCartCount() {
         const cartCountElement = document.querySelector('.cart-count');
         if (cartCountElement) {
@@ -72,7 +72,7 @@ class Cart {
         }
     }
 
-    // Show notification toast
+    // Prikaži obaveštenje
     showNotification(message) {
         const toast = document.getElementById('toast');
         if (toast) {
@@ -83,7 +83,7 @@ class Cart {
     }
 }
 
-// Initialize cart
+// Inicijalizuj korpу
 const cart = new Cart();
 
 // Filter state
@@ -94,10 +94,13 @@ let activeFilters = {
     rating: []
 };
 
-// Product stock storage
+// Čuvanje skladišta proizvoda
 let productStock = {};
 
-// Load stock from localStorage
+// Čuvanje odabranih opcija proizvoda
+let selectedOptions = {};
+
+// Učitaj skladište iz localStorage
 function loadStock() {
     const saved = localStorage.getItem('productStock');
     if (saved) {
@@ -111,12 +114,12 @@ function loadStock() {
     }
 }
 
-// Save stock to localStorage
+// Sačuvaj skladište u localStorage
 function saveStock() {
     localStorage.setItem('productStock', JSON.stringify(productStock));
 }
 
-// Get stock for a product
+// Dobij skladište za proizvod
 function getProductStock(productId) {
     if (!productStock.hasOwnProperty(productId)) {
         const product = products.find(p => p.id === productId);
@@ -125,7 +128,7 @@ function getProductStock(productId) {
     return productStock[productId];
 }
 
-// Decrease stock for a product
+// Smanji skladište za proizvod
 function decreaseStock(productId) {
     if (getProductStock(productId) > 0) {
         productStock[productId]--;
@@ -135,7 +138,15 @@ function decreaseStock(productId) {
     return false;
 }
 
-// Get unique brands and types
+// Ažuriraj izbor opcije
+function updateOptionSelection(productId, optionName, optionValue) {
+    if (!selectedOptions[productId]) {
+        selectedOptions[productId] = {};
+    }
+    selectedOptions[productId][optionName] = optionValue;
+}
+
+// Dobij jedinstvene brendove i tipove
 function getUniqueBrands() {
     return [...new Set(products.map(p => p.brand))];
 }
@@ -144,7 +155,7 @@ function getUniqueTypes() {
     return [...new Set(products.map(p => p.type))];
 }
 
-// Initialize filter UI
+// Inicijalizuj UI filtera
 function initializeFilters() {
     // Populate brand filter
     const brandFilter = document.getElementById('brandFilter');
@@ -175,6 +186,16 @@ function displayProducts(productsToShow = products) {
     productsGrid.innerHTML = productsToShow.map(product => {
         const stock = getProductStock(product.id);
         const isOutOfStock = stock === 0;
+        const optionsHTML = product.options ? Object.entries(product.options).map(([optionName, optionValues]) => `
+            <div class="product-option">
+                <label>${optionName === 'color' ? 'Бoja' : optionName === 'storage' ? 'Меморија' : optionName === 'size' ? 'Величина' : optionName.charAt(0).toUpperCase() + optionName.slice(1)}:</label>
+                <select onchange="updateOptionSelection(${product.id}, '${optionName}', this.value)" class="option-select">
+                    <option value="">Одаберите...</option>
+                    ${optionValues.map(val => `<option value="${val}">${val}</option>`).join('')}
+                </select>
+            </div>
+        `).join('') : '';
+        
         return `
         <div class="product-card ${isOutOfStock ? 'out-of-stock' : ''}">
             <div class="product-image">${product.image}</div>
@@ -191,6 +212,7 @@ function displayProducts(productsToShow = products) {
                     <span class="original-price">$${product.originalPrice}</span>
                 </div>
                 ${stock > 0 ? `<div class="stock-info">Залихе: ${stock}/10</div>` : ''}
+                ${optionsHTML}
                 <div class="product-actions">
                     <button class="btn btn-primary" onclick="addToCartQuick(${product.id})" ${isOutOfStock ? 'disabled' : ''}>
                         ${isOutOfStock ? 'Нема на залихи' : 'Додај у корпу'}
@@ -206,9 +228,27 @@ function displayProducts(productsToShow = products) {
 function addToCartQuick(productId) {
     const product = products.find(p => p.id === productId);
     if (product) {
+        // Proverite da li proizvod ima obavezne opcije
+        if (product.options) {
+            const options = selectedOptions[productId] || {};
+            const requiredOptions = Object.keys(product.options);
+            const selectedOptionKeys = Object.keys(options).filter(key => options[key] !== '');
+            
+            if (selectedOptionKeys.length < requiredOptions.length) {
+                cart.showNotification('Молимо одаберите све опције!');
+                return;
+            }
+        }
+        
         if (decreaseStock(productId)) {
-            cart.addItem(product, 1);
-            // Refresh display to update stock
+            const cartItem = {
+                ...product,
+                selectedOptions: selectedOptions[productId] || {}
+            };
+            cart.addItem(cartItem, 1);
+            // Očisti odabrane opcije nakon dodavanja u korpу
+            selectedOptions[productId] = {};
+            // Osveži prikaz da ažuriraš skladište i resetuješ selecte
             displayProducts();
         } else {
             cart.showNotification('Производ није доступан!');
@@ -228,7 +268,7 @@ function filterByCategory(category) {
     event.target.classList.add('active');
 }
 
-// Search products
+// Pretraži proizvode
 function searchProducts(searchTerm) {
     const filtered = products.filter(p => 
         p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -237,25 +277,25 @@ function searchProducts(searchTerm) {
     displayProducts(filtered);
 }
 
-// Initialize on page load
+// Inicijalizuj pri učitavanju stranice
 document.addEventListener('DOMContentLoaded', () => {
-    // Load stock first
+    // Učitaj skladište prvo
     loadStock();
     
-    // Display all products initially
+    // Prikaži sve proizvode na početku
     displayProducts();
 
-    // Update cart count
+    // Ažuriraj broj u korpi
     cart.updateCartCount();
 
-    // Category filter listeners
+    // Sluškači za filtere kategorija
     document.querySelectorAll('.category-btn').forEach(btn => {
         btn.addEventListener('click', function() {
             filterByCategory(this.dataset.category);
         });
     });
 
-    // Search functionality
+    // Funkcionalnost pretrage
     const searchBtn = document.querySelector('.search-btn');
     const searchBar = document.querySelector('.search-bar');
     
