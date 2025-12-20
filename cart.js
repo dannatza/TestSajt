@@ -14,7 +14,7 @@ function loadCart() {
 
     cartItems.innerHTML = cart.items.map(item => `
         <div class="cart-item">
-            <div class="item-image">${item.image}</div>
+            <div class="item-image"><img src="${item.image}" alt="${item.name}"></div>
             <div class="item-details">
                 <h3>${item.name}</h3>
                 <p class="item-category">${item.category}</p>
@@ -26,10 +26,10 @@ function loadCart() {
                 <p class="item-price">$${item.price}</p>
             </div>
             <div class="item-quantity">
-                <label for="qty-${item.id}">Кол:</label>
+                <label>Кол:</label>
                 <div class="quantity-controls">
                     <button class="qty-btn" onclick="updateCartQuantity(${item.id}, ${item.quantity - 1})">−</button>
-                    <input type="number" id="qty-${item.id}" value="${item.quantity}" readonly>
+                    <input type="number" class="qty" value="${item.quantity}" readonly>
                     <button class="qty-btn" onclick="updateCartQuantity(${item.id}, ${item.quantity + 1})">+</button>
                 </div>
             </div>

@@ -14,7 +14,7 @@
     --lighter: #ffffff;      /* White */
     --text-primary: #1f2937;
     --text-secondary: #6b7280;
-    --border: #e5e7eb;
+    --border: #a8a8a8;
 }
 
 /* ========== RESET ========== */
@@ -390,13 +390,18 @@ a:hover {
 }
 
 .product-image {
-    height: 200px;
+    height: 250px;
     background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 5rem;
     overflow: hidden;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .product-info {
@@ -653,7 +658,18 @@ a:hover {
 }
 
 .image-display {
-    font-size: 8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    border-radius: 0.75rem;
+    min-height: 400px;
+}
+
+.image-display img {
+    width: 100%;
+    height: auto;
+    max-width: 500px;
     animation: float 3s ease-in-out infinite;
 }
 
@@ -866,13 +882,23 @@ a:hover {
     gap: 0.4rem;
 }
 
+.quantity-controls {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    width: fit-content;
+}
+
 .cart-item {
     background: var(--lighter);
     border: 1px solid var(--border);
     border-radius: 0.4rem;
     padding: 0.6rem;
     display: grid;
-    grid-template-columns: 55px 1fr 90px 70px 40px;
+    grid-template-columns: 70px 1fr 90px 70px 40px;
     gap: 0.5rem;
     align-items: center;
     transition: all 0.3s ease;
@@ -884,13 +910,20 @@ a:hover {
 }
 
 .item-image {
-    font-size: 1.5rem;
     text-align: center;
     background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-    height: 55px;
+    height: 70px;
+    width: 70px;
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 0.3rem;
+}
+
+.item-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     border-radius: 0.3rem;
 }
 
@@ -927,6 +960,7 @@ a:hover {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    margin-left: -30px;
 }
 
 .item-quantity label {
@@ -1004,6 +1038,8 @@ a:hover {
     border: 1px solid var(--border);
     border-radius: 0.4rem;
     padding: 0.8rem;
+    display:flex; flex-direction: column;
+    gap: 0.5rem;
 }
 
 .promo-box h3 {
@@ -1012,7 +1048,7 @@ a:hover {
 }
 
 .promo-input {
-    display: flex;
+    
     gap: 0.5rem;
 }
 
@@ -1021,6 +1057,7 @@ a:hover {
     padding: 0.75rem;
     border: 1px solid var(--border);
     border-radius: 0.5rem;
+    margin-bottom:10px;
 }
 
 .promo-input button {
@@ -1380,6 +1417,13 @@ a:hover {
     width: 100%;
     padding: 1rem;
     margin-top: 1rem;
+}
+.qty {
+    width: 20px;
+    border: none;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1rem;
 }
 
 /* Responsive */

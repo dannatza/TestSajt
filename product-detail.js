@@ -16,7 +16,7 @@ function loadProductDetails() {
 
     // Update page elements
     document.getElementById('productName').textContent = product.name;
-    document.getElementById('imageDisplay').textContent = product.image;
+    document.getElementById('imageDisplay').innerHTML = `<img src="${product.image}" alt="${product.name}">`;
     document.getElementById('productStars').textContent = '★'.repeat(Math.floor(product.rating));
     document.getElementById('productRating').textContent = product.rating;
     document.getElementById('productReviews').textContent = `(${product.reviews})`;
@@ -79,7 +79,7 @@ function loadRelatedProducts(category, currentProductId) {
     const relatedGrid = document.getElementById('relatedGrid');
     relatedGrid.innerHTML = related.map(product => `
         <div class="product-card">
-            <div class="product-image">${product.image}</div>
+            <div class="product-image"><img src="${product.image}" alt="${product.name}"></div>
             <div class="product-info">
                 <h3 class="product-name">${product.name}</h3>
                 <div class="product-rating">

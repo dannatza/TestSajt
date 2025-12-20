@@ -198,7 +198,7 @@ function displayProducts(productsToShow = products) {
         
         return `
         <div class="product-card ${isOutOfStock ? 'out-of-stock' : ''}">
-            <div class="product-image">${product.image}</div>
+        <div class="product-image"><img src="${product.image}" alt="${product.name}"></div>
             ${isOutOfStock ? '<div class="stock-badge">Нема на залихи</div>' : ''}
             <div class="product-info">
                 <h3 class="product-name">${product.name}</h3>
