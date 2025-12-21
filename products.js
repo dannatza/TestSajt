@@ -43,7 +43,7 @@ const products = [
             battery: 'Батерија целог дана'
         },
         options: {
-            color: ['Црна', 'Сребрена', 'Злата', 'Дубока црна']
+            color: ['Црна', 'Сребрна', 'Злата', 'Дубока црна']
         },
         inStock: true
     },
@@ -163,7 +163,7 @@ const products = [
             waterproof: '5ATM'
         },
         options: {
-            color: ['Црна', 'Сребрена'],
+            color: ['Црна', 'Сребрна'],
             size: ['S', 'M', 'L']
         },
         inStock: true
